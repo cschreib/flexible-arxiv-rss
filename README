@@ -47,11 +47,15 @@ Install instructions
    edit box. Then press "Add".
 
 *) And that's it! Now you will get an RSS feed from the arXiv without missing any article if you go
-   traveling without internet connection for a week. Note that this setup will only work locally,
-   one one computer. If you need to access this RSS feed from multiple computers, or if you wish
-   to use a feed aggregator, you need to make the website public, and use the public address
-   instead of "localhost" when registering to the feed. The filters will be shared among all
-   computers, but each computer can have a different read history.
+   traveling without internet connection for a week. The first time the program is ran, it will
+   fetch the new articles from the past 5 days, and will accumulate papers with up to 2 weeks of
+   history.
+
+*) Note that this setup will only work locally, one one computer. If you need to access this RSS
+   feed from multiple computers, or if you wish to use a feed aggregator, you need to make the
+   website public, and use the public address instead of "localhost" when registering to the feed.
+   The filters will be shared among all computers, but each computer can have a different read
+   history.
 
 *) You can also edit the preferences.xml file to setup some filtering to reduce the amount of
    papers that appear in the RSS feed. See next section.
