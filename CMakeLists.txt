@@ -38,8 +38,10 @@ add_dependencies(oai-records-2html generate-config)
 
 # install everything in the local share folder
 install(FILES share/arxiv.css DESTINATION ${USER_CONFIG_DIR} COMPONENT config)
-install(FILES ${CMAKE_BINARY_DIR}/preferences.xml DESTINATION ${USER_CONFIG_DIR} COMPONENT config)
-install(FILES ${CMAKE_BINARY_DIR}/nginx.conf DESTINATION ${USER_CONFIG_DIR} COMPONENT config)
+if (NOT EXISTS ${USER_CONFIG_DIR}/preferences.xml)
+    install(FILES ${CMAKE_BINARY_DIR}/preferences.xml DESTINATION ${USER_CONFIG_DIR} COMPONENT config)
+    install(FILES ${CMAKE_BINARY_DIR}/nginx.conf DESTINATION ${USER_CONFIG_DIR} COMPONENT config)
+endif()
 install(PROGRAMS ${CMAKE_BINARY_DIR}/oai-get-preference DESTINATION ${USER_CONFIG_DIR} COMPONENT bin)
 install(PROGRAMS ${CMAKE_BINARY_DIR}/oai-merge-records DESTINATION ${USER_CONFIG_DIR} COMPONENT bin)
 install(PROGRAMS ${CMAKE_BINARY_DIR}/oai-filter-records DESTINATION ${USER_CONFIG_DIR} COMPONENT bin)
