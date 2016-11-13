@@ -1,0 +1,12 @@
+<preferences>
+ <pref name="http_host">http://localhost:[[USER_HTTP_PORT]]</pref>
+ <pref name="http_local_www_path">[[WWW_PATH]]</pref>
+ <pref name="keep_history">2 weeks ago</pref>
+ <pref name="star_include"></pref>
+ <pref name="content_exclude"></pref>
+ <pref name="categories_must_include"></pref>
+ <pref name="categories_exclude"></pref>
+ <pref name="allow_crosspost">1</pref>
+ <pref name="allow_replacements">1</pref>
+ <pref name="only_accepted">0</pref>
+</preferences>

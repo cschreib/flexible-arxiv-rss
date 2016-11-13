@@ -1,0 +1,47 @@
+body {
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 5px 0 5px;
+}
+
+div.title {
+    font-size: 120%;
+    margin: 0;
+    padding: 0 5px 0 5px;
+    font-weight: bold;
+    list-style-type: none;
+    overflow: hidden;
+}
+
+.title span {
+}
+
+ul.author-list {
+    list-style-type: none;
+    overflow: hidden;
+    margin: 0;
+    padding: 16px;
+    display: block;
+}
+
+.author-list li {
+    float: left;
+    padding: 0 0 0 5px;
+}
+
+div.info {
+    margin-bottom: 16px;
+}
+
+.info-header {
+    font-weight: bold;
+}
+
+div.abstract {
+    text-align: justify;
+}
+
+.abstract-header {
+    font-weight: bold;
+}

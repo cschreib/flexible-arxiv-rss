@@ -1,0 +1,96 @@
+Install instructions
+====================
+
+*) Install a simple web server (nginx):
+        sudo apt-get install nginx-common nginx-light
+
+*) Build and install the arxiv-transform tools. From the source directory:
+        mkdir build && cd build
+        cmake ../
+        make
+        make install
+
+*) Run the web server: (note: the path has to be absolute here)
+        nginx -c /home/<your_username>/.local/share/arxiv-transform/nginx.conf
+
+   This command should be added to your list of commands to run at startup as well.
+
+*) Setup a cron job to poll the arXiv daily. For example, open your cron table with:
+        crontab -e
+
+   Then add this line to the file to poll the arXiv every day at 7am:
+        00 07 * * * /home/<your_username>/.local/share/arxiv-transform/poll_arxiv_oai.sh /home/<your_username>/.local/share/arxiv-transform
+
+   The command should also be ran at startup, since you may only start your computer after 7am...
+        /home/<your_username>/.local/share/arxiv-transform/poll_arxiv_oai.sh /home/<your_username>/.local/share/arxiv-transform
+
+*) To continue we need a first poll of the arXiv. We do not want to wait until 7am the next day,
+   or to restart the computer, so we can run the script manually (just this one time):
+        /home/<your_username>/.local/share/arxiv-transform/poll_arxiv_oai.sh /home/<your_username>/.local/share/arxiv-transform
+
+*) Then open your favorite RSS reader and use the following RSS feed:
+        http://localhost:8080/arxiv/rss/feed.rss
+
+   If you are using Thunderbird, you need a "Blog and news" account. If you don't have one already,
+   go to "Edit > Account Settings > Account Actions > Add Feed account...". This will add a new
+   entry alongside your inbox.
+
+   Right click on that entry and choose "Subscribe...", then write the above URL in the "Feed URL"
+   edit box. Then press "Add".
+
+*) And that's it! Now you will get an RSS feed from the arXiv without missing any article if you go
+   traveling without internet connection for a week. You can also edit the preferences.xml file to
+   setup some filtering to reduce the amount of papers that appear in the RSS feed. See next
+   section.
+
+
+Customizing RSS feed
+====================
+
+Open the file:
+    /home/<your_username>/.local/share/arxiv-transform/preferences.xml
+
+This file controls, among other things, the various filters that can be applied to the arXiv
+entries before they are sent to the RSS feed. Below is a description of all these options.
+
+*) keep_history
+This defines the amount of time a paper will remain in the RSS feed. Papers older than this will
+be removed. You should set this amount of time to the longest time you may expect your computer to
+be turned off (or without internet access). The syntax is that of the "date" command line tool, so
+you can have "3 days ago" or "1 month ago". For example:
+    <pref name="keep_history">2 weeks ago</pref>
+
+*) star_include
+This is a list of comma-separated words or expressions that will be searched for in each paper's
+title and abstract. If at least one of these is found, the paper will appear with a little star in
+its title in your RSS feed. These are case-insensitive. For example:
+    <pref name="content_must_include">galaxy, main sequence, main-sequence, bulges</pref>
+
+*) content_exclude
+Same as above, except that a paper is deleted if any of these words or expressions is found in the
+title or abstract.
+    <pref name="content_must_include">chemistry, neutralino, reionization</pref>
+
+*) categories_must_include/categories_exclude
+These two options function exactly the same as star_include and content_exclude, but will
+be applied to the arXiv category string instead. The category string contains all the categories
+the paper has been attributed to. There can be only one category (usually), or several is the
+paper has been crossposted. For example:
+    <pref name="categories_must_include">astro-ph.GA, astro-ph.CO</pref>
+    <pref name="categories_exclude">gr-qc, astro-ph.SR</pref>
+... will only display articles listed in astro-ph.GA or astro-ph.CO, and will exclude those that
+are also listed in gr-qc and astro-ph.SR.
+
+*) allow_crosspost
+Set this to "0" to hide all entries that are listed in more than one arXiv category.
+
+*) allow_replacements
+Set this to "0" to only show papers when they appear on arXiv for the first time, and hide
+announcements for updates and revisions.
+
+*) only_accepted
+Set this to "1" to only display the papers that contain the word "accepted" in their comment
+field. The goal is to only list papers that are accepted for publication, rather than just
+submitted. This option will take precedence over "allow_replacement", so you may see the same
+paper appearing twice if the authors update the arXiv version multiple times after the paper
+has been accepted.
