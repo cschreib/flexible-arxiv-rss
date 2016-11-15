@@ -21,20 +21,20 @@ Install instructions
         crontab -e
 
    Then add this line to the file to probe the arXiv every day at 7am:
-        00 07 * * * /home/<your_username>/.local/share/arxiv-transform/probe_arxiv_oai.sh /home/<your_username>/.local/share/arxiv-transform
+        00 07 * * * /home/<your_username>/.local/share/arxiv-transform/probe_arxiv_oai.sh
 
    You can choose this update time yourself: you should choose a time that is a) before you
    usually arrive to work, and b) after the arXiv daily update to remain on top of the flow...
 
    If you shutdown your computer every day, then you can instead simply add the command to your
    list of startup programs:
-        /home/<your_username>/.local/share/arxiv-transform/probe_arxiv_oai.sh /home/<your_username>/.local/share/arxiv-transform
+        /home/<your_username>/.local/share/arxiv-transform/probe_arxiv_oai.sh
 
    It does not matter if this command is executed before or after the web server is started.
 
 *) To continue we need a first probe of the arXiv to work with.
    Run the script manually (just this one time):
-        /home/<your_username>/.local/share/arxiv-transform/probe_arxiv_oai.sh /home/<your_username>/.local/share/arxiv-transform
+        /home/<your_username>/.local/share/arxiv-transform/probe_arxiv_oai.sh
 
 *) Then open your favorite RSS reader and use the following RSS feed URL:
         http://localhost:8080/arxiv/rss/feed.rss
