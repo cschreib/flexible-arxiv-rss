@@ -4,8 +4,19 @@
 #include "zenxml/xml.h"
 #include "common.hpp"
 #include "oai-common.hpp"
+#include <ctime>
 
 namespace rss {
+    std::string date_to_pubdate(const std::string& date) {
+        struct tm tinfo;
+        char buffer[100];
+
+        setlocale(LC_TIME, "en_US");
+        strptime(date.c_str(), "%Y-%m-%d", &tinfo);
+        strftime(buffer, sizeof(buffer), "%a %b %e %Y", &tinfo);
+        return buffer;
+    }
+
     void write_records(const std::string& filename, std::vector<oai::record> recs,
         const std::string& web_host, const std::vector<std::string>& star_include) {
 
@@ -46,6 +57,10 @@ namespace rss {
             se->addChild("title").setValue(rec.title);
             se->addChild("link").setValue(web_host+"/arxiv/"+rec.id);
             se->addChild("description").setValue(rec.abstract);
+
+            std::string last_date = rec.created;
+            if (!rec.updated.empty()) last_date = rec.updated;
+            se->addChild("pubDate").setValue(rss::date_to_pubdate(last_date));
         }
 
         try {
