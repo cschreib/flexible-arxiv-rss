@@ -29,7 +29,7 @@ if (NOT NGINX_CACHE)
 endif()
 
 # apply configuration to template config files
-add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/preferences.xml ${CMAKE_BINARY_DIR}/nginx.conf
+add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/preferences.xml ${CMAKE_BINARY_DIR}/nginx.conf ${CMAKE_BINARY_DIR}/poll_arxiv_oai.sh
     COMMAND ${CMAKE_SOURCE_DIR}/share/make_config.sh
     ${CMAKE_BINARY_DIR} ${USER_CONFIG_DIR} ${USER_HTTP_PORT} ${WWW_PATH} ${NGINX_CACHE})
 
@@ -47,5 +47,5 @@ install(PROGRAMS ${CMAKE_BINARY_DIR}/oai-merge-records DESTINATION ${USER_CONFIG
 install(PROGRAMS ${CMAKE_BINARY_DIR}/oai-filter-records DESTINATION ${USER_CONFIG_DIR} COMPONENT bin)
 install(PROGRAMS ${CMAKE_BINARY_DIR}/oai-records-2rss DESTINATION ${USER_CONFIG_DIR} COMPONENT bin)
 install(PROGRAMS ${CMAKE_BINARY_DIR}/oai-records-2html DESTINATION ${USER_CONFIG_DIR} COMPONENT bin)
-install(PROGRAMS share/poll_arxiv_oai.sh DESTINATION ${USER_CONFIG_DIR} COMPONENT bin)
+install(PROGRAMS ${CMAKE_BINARY_DIR}/poll_arxiv_oai.sh DESTINATION ${USER_CONFIG_DIR} COMPONENT bin)
 install(DIRECTORY nginx-cache DESTINATION ${USER_CONFIG_DIR})

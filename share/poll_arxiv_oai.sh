@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Read preferences
-WORK_PATH=$1
+WORK_PATH="[[CONFIG_DIR]]"
 USER_PREFERENCES="${WORK_PATH}/preferences.xml"
 USER_CSS_PATH="${WORK_PATH}/arxiv.css"
 CACHE_PATH="${WORK_PATH}/cache"
