@@ -4,6 +4,8 @@ Install instructions
 *) Install a simple web server (nginx):
         sudo apt-get install nginx-common nginx-light
 
+   Note: you do not need root permission to do any of the following.
+
 *) Build and install the arxiv-transform tools. From the source directory:
         mkdir build && cd build
         cmake ../
@@ -13,7 +15,11 @@ Install instructions
 *) Run the web server: (note: the path has to be absolute here)
         nginx -c /home/<your_username>/.local/share/arxiv-transform/nginx.conf
 
-   This command should be added to your list of commands to run at startup as well.
+   It may print an error about being unable to open a log file. You can ignore this error. If
+   instead you get errors about "98: Adress already in use", this means that nginx is already
+   running, so it is not necesary to run this command again. To make sure everything is fine, you
+   can "killall nginx" and run the command once more. Ideally, this command should be added to
+   your list of commands to run at startup as well, so you don't have to manually call it.
 
 *) Then we need to setup the daily probe of the arXiv. If you leave your computer running during
    the whole week without turning it off, you will want to use a chron job. For example, open your
@@ -54,6 +60,15 @@ Install instructions
 *) Note that this setup will only work locally, one one computer. If you need to access this RSS
    feed from multiple computers, or if you wish to use a feed aggregator, you need to make the
    website public, and use the public address instead of "localhost" when registering to the feed.
+   This may require you to:
+    1) Have a static public IP address (depending on your internet provider, you can have either a
+       fixed or dynamic address). NB: you can see your ip by Googleing "what is my ip".
+    2) Have a static local IP address (192.168.0.1, for example).
+    3) Configure your router to forward the traffic through port 8080 toward your computer.
+
+   Obviously this requires you to have admin access to your network. If this is not possible, an
+   alternative solution is to build (or pay for) a dedicated server on which the code will run.
+
    The filters will be shared among all computers, but each computer can have a different read
    history.
 
