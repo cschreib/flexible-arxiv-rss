@@ -40,6 +40,7 @@ div.info {
 
 div.abstract {
     text-align: justify;
+    padding-bottom: 32px;
 }
 
 .abstract-header {
