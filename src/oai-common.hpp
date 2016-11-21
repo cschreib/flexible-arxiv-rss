@@ -16,6 +16,7 @@ namespace oai {
     };
 
     bool date_less(const std::string& d1, const std::string& d2) {
+        // expected format: yyyy-mm-dd
         auto sd1 = split(d1, "-");
         auto sd2 = split(d2, "-");
         if (sd1.size() != sd2.size()) {

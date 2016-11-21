@@ -28,28 +28,56 @@ namespace html {
     };
 
     void write_records(const std::string& local_dir, const std::vector<oai::record> recs) {
+        // Find latest update
+        std::string latest_date = "";
+        for (const auto& rec : recs) {
+            std::string last_date = rec.created;
+            if (!rec.updated.empty()) last_date = rec.updated;
+
+            if (latest_date.empty() || oai::date_less(latest_date, last_date)) {
+                latest_date = last_date;
+            }
+        }
+
+        zen::XmlDoc whatsnew("html");
+
+        zen::XmlElement* r = &whatsnew.root();
+        r = &r->addChild("head");
+            r = &r->addChild("link");
+                r->setAttribute("rel", "stylesheet");
+                r->setAttribute("href", "arxiv.css");
+            r = r->parent();
+
+            r = &r->addChild("meta");
+                r->setAttribute("name", "viewport");
+                r->setAttribute("content", "width=device-width, initial-scale=1, user-scalable=no");
+            r = r->parent();
+        r = r->parent();
+
+        r = &r->addChild("body");
+
         for (const auto& rec : recs) {
             std::string odir = local_dir+"/"+rec.id+"/";
             mkdir(odir);
 
             zen::XmlDoc doc("html");
 
-            zen::XmlElement* e;
+            zen::XmlElement* s;
 
-            e = &doc.root();
-            e = &e->addChild("head");
-                e = &e->addChild("link");
-                    e->setAttribute("rel", "stylesheet");
-                    e->setAttribute("href", "../arxiv.css");
-                e = e->parent();
+            s = &doc.root();
+            s = &s->addChild("head");
+                s = &s->addChild("link");
+                    s->setAttribute("rel", "stylesheet");
+                    s->setAttribute("href", "../arxiv.css");
+                s = s->parent();
 
-                e = &e->addChild("meta");
-                    e->setAttribute("name", "viewport");
-                    e->setAttribute("content", "width=device-width, initial-scale=1, user-scalable=no");
-                e = e->parent();
-            e = e->parent();
+                s = &s->addChild("meta");
+                    s->setAttribute("name", "viewport");
+                    s->setAttribute("content", "width=device-width, initial-scale=1, user-scalable=no");
+                s = s->parent();
+            s = s->parent();
 
-            e = &e->addChild("body");
+            auto write_data = [&](zen::XmlElement* e) {
                 e = &e->addChild("div");
                     e->setAttribute("class", "title");
                     e->setValue(rec.title);
@@ -102,7 +130,20 @@ namespace html {
                         e->setValue(rec.abstract);
                     e = e->parent();
                 e = e->parent();
-            e = e->parent();
+            };
+
+            s = &s->addChild("body");
+                write_data(s);
+            s = s->parent();
+
+            std::string last_date = rec.created;
+            if (!rec.updated.empty()) last_date = rec.updated;
+
+            if (last_date == latest_date) {
+                r = &r->addChild("div");
+                    write_data(r);
+                r = r->parent();
+            }
 
             try {
                 zen::save(doc, odir+"index.html", "\n", " ");
@@ -110,6 +151,13 @@ namespace html {
                 error("could not write the XML file '", odir, "index.html'");
                 throw;
             }
+        }
+
+        try {
+            zen::save(whatsnew, local_dir+"/index.html", "\n", " ");
+        } catch (const zen::XmlFileError& e) {
+            error("could not write the XML file '", local_dir, "/index.html'");
+            throw;
         }
     }
 }
