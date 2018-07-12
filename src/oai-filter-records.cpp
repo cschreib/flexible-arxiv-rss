@@ -85,7 +85,8 @@ int main(int argc, char* argv[]) {
         // Filter by keywords on content
         // -----------------------------
         for (const auto& w : content_exclude) {
-            if (find_word(rec.title, w) || find_word(rec.abstract, w)) {
+            if (find_word(rec.title, w) || find_word(rec.abstract, w) ||
+                find_word(rec.ref, w) || find_word(rec.comments, w)) {
                 if (debug) note(rec.id, " removed because it contains an exluded keyword (", w, ")");
                 return true;
             }
